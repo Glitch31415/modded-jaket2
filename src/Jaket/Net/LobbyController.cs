@@ -45,8 +45,7 @@ public class LobbyController
     public static void ScaleHealth(ref float health) => health *= 1f + Math.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
     /// <summary> Whether the given lobby is created via Multikill. </summary>
     public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
-    public static byte MaxPlayerCount => 255;
-
+    public static byte MaxPlayerCount = 250;
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
     {
@@ -55,11 +54,11 @@ public class LobbyController
         {
             if (lobby.Owner.Id != 0L) LastOwner = lobby.Owner.Id;
 
-            if (IsMultikillLobby(lobby))
-            {
-                LeaveLobby();
-                Bundle.Hud("lobby.mk");
-            }
+            // if (IsMultikillLobby(lobby))
+            // {
+            //     LeaveLobby();
+            //     Bundle.Hud("lobby.mk");
+            // }
         };
         // and leave the lobby if the owner has left it
         SteamMatchmaking.OnLobbyMemberLeave += (lobby, member) =>
@@ -239,7 +238,7 @@ public class LobbyController
         "Spelunky.FRAUDULENCE_SECOND" => "Fraudulence-2",
 
         // Fraud ::: Higher Than The Black Sky
-        "82.Fraud.HigherTTBS" => "Fraud HTTBS",
+        "82.Fraud.HigherTTBS" => "FraudHTTBS-2",
 
         // Finale
         "fruitc.finale"   => "Finale-1",
@@ -280,8 +279,8 @@ public class LobbyController
         "willem1321-skilltest2"   => "SkillTest 2",
         "willem1321-premonitions" => "SkillTest 2.5",
 
-        _ => map.Substring("Level ".Length)
-};
+        _ => map.StartsWith("Level ") ? map.Substring("Level ".Length) : map
+    };
 
     #endregion
 }

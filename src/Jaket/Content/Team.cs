@@ -3,6 +3,7 @@ namespace Jaket.Content;
 using UnityEngine;
 
 using Jaket.Net;
+using UnityEngine.UIElements;
 
 /// <summary> All teams. Teams needed for PvP mechanics. </summary>
 public enum Team
@@ -50,5 +51,5 @@ public static class TeamExtensions
     };
 
     /// <summary> Whether this team is allied with the player. </summary>
-    public static bool Ally(this Team team) => team == Networking.LocalPlayer.Team || !LobbyController.PvPAllowed;
+    public static bool Ally(this Team team) => team != Team.White && team == Networking.LocalPlayer.Team || !LobbyController.PvPAllowed;
 }

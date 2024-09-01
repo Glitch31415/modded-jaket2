@@ -50,15 +50,16 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
         UIB.Table("Lobby Config", "#lobby-tab.config", transform, Tlw(384f + 422f / 2f, 422f), table =>
         {
             field = UIB.Field("#lobby-tab.name", table, Tgl(64f), cons: name => LobbyController.Lobby?.SetData("name", name));
-            field.characterLimit = 256;
+            field.characterLimit = 28;
 
             accessibility = UIB.Button("#lobby-tab.private", table, Btn(108f), clicked: () =>
             {
-                switch (lobbyAccessLevel = ++lobbyAccessLevel % 3)
+                switch (lobbyAccessLevel = ++lobbyAccessLevel % 4)
                 {
                     case 0: LobbyController.Lobby?.SetPrivate(); break;
                     case 1: LobbyController.Lobby?.SetFriendsOnly(); break;
-                    case 2: LobbyController.Lobby?.SetPublic(); break;
+                    case 2: LobbyController.Lobby?.SetPublic(); LobbyController.Lobby?.SetData("mk_lobby", "true"); break;
+                    case 3: LobbyController.Lobby?.SetPublic(); LobbyController.Lobby?.DeleteData("mk_lobby"); break;
                 }
                 Rebuild();
             });
@@ -102,11 +103,11 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
         // reset config
         if (LobbyController.Offline)
         {
-            lobbyAccessLevel = 0;
-            pvp.isOn = true;
+            lobbyAccessLevel = 1;
+            pvp.isOn = false;
             cheats.isOn = false;
             mods.isOn = true;
-            bosses.isOn = true;
+            bosses.isOn = false;
         }
         else field.text = LobbyController.Lobby?.GetData("name");
 
@@ -122,7 +123,8 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
         {
             0 => "lobby-tab.private",
             1 => "lobby-tab.fr-only",
-            2 => "lobby-tab.public",
+            2 => "lobby-tab.modded",
+            3 => "lobby-tab.public",
             _ => "lobby-tab.default"
         });
 
