@@ -51,7 +51,7 @@ public class Networking
 
         Events.OnLoadingStarted += () =>
         {
-            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(UnityEngine.Random.value < .042f ? "DOCTOR SEX!!!" : "/// MULTIPLAYER VIA JAKET ///");
+            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(UnityEngine.Random.value < .8f ? "kill yourslef!!!" : "/// MULTIPLAYER VIA JAKET ///");
             Loading = true;
         };
         Events.OnLoaded += () =>
